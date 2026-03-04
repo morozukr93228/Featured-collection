@@ -16,3 +16,33 @@
     display: none; 
   }
 }
+
+@font-face {
+  font-family: 'PoppinsRegular';
+  src: url('./font/Poppins-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PoppinsMedium';
+  src: url('./font/Poppins-Medium.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PoppinsSemiBold';
+  src: url('./font/Poppins-SemiBold.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BebasNeue';
+  src: url('./font/BebasNeue-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SourceSerifPro';
+  src: url('./font/SourceSerifPro-Black.woff2') format('woff2');
+  font-display: swap;
+}
