@@ -1,6 +1,13 @@
 const container = document.getElementById("productContainer");
 const indicator = document.getElementById("scrollIndicator");
 
+let isHovering = false;
+
+indicator.addEventListener("mouseenter", () => { isHovering = true; updateScrollIndicator(); });
+indicator.addEventListener("mouseleave", () => { isHovering = false; updateScrollIndicator(); });
+indicator.addEventListener("touchstart", () => { isHovering = true; updateScrollIndicator(); });
+indicator.addEventListener("touchend", () => { isHovering = false; updateScrollIndicator(); });
+
 function updateScrollIndicator() {
   const scrollWidth = container.scrollWidth;
   const clientWidth = container.clientWidth;
@@ -10,28 +17,45 @@ function updateScrollIndicator() {
 
   if (maxScroll <= 0) {
     indicator.style.width = "0px";
-    indicator.style.transform = "translateX(0px)";
+    indicator.style.transform = "translateX(0px) scaleY(1)";
     return;
   }
 
   const visibleRatio = clientWidth / scrollWidth;
-
   const trackWidth = indicator.parentElement.clientWidth;
   const thumbWidth = trackWidth * visibleRatio;
-
-  indicator.style.width = `${thumbWidth}px`;
-
   const scrollRatio = scrollLeft / maxScroll;
-
   const maxTranslate = trackWidth - thumbWidth;
 
-  indicator.style.transform = `translateX(${scrollRatio * maxTranslate}px)`;
+  const scale = isHovering ? 1.5 : 1;
+
+  indicator.style.width = `${thumbWidth}px`;
+  indicator.style.transform = `translateX(${scrollRatio * maxTranslate}px) scaleY(${scale})`;
 }
 
 container.addEventListener("scroll", updateScrollIndicator);
 window.addEventListener("resize", updateScrollIndicator);
 
 updateScrollIndicator();
+
+const scrollTrack = indicator.parentElement;
+
+scrollTrack.addEventListener("click", (e) => {
+  // Get the click position relative to the track
+  const trackRect = scrollTrack.getBoundingClientRect();
+  const clickX = e.clientX - trackRect.left;
+
+  // Calculate scroll ratio
+  const trackWidth = scrollTrack.clientWidth;
+  const scrollRatio = clickX / trackWidth;
+
+  // Scroll container to corresponding position
+  const maxScroll = container.scrollWidth - container.clientWidth;
+  container.scrollTo({
+    left: scrollRatio * maxScroll,
+    behavior: "smooth" // smooth scrolling
+  });
+});
 /* -------------------------
   show more button logic
 -------------------------- */

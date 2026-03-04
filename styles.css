@@ -6,6 +6,16 @@
   scrollbar-width: none;
 }
 
+#scrollIndicator {
+  height: 4px; /* default height */
+  transform-origin: center; /* grow from center */
+  transition: transform 0.2s ease; /* smooth translate + scale */
+}
+
+#scrollIndicator:hover {
+  cursor: pointer;
+}
+
 @layer utilities {
   .scrollbar-none {
     scrollbar-width: none; 
