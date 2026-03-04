@@ -28,7 +28,31 @@ showMoreBtn.addEventListener('click', () => {
   isExpanded = !isExpanded;
 
   extraProducts.forEach(product => {
-    product.classList.toggle('hidden');
+    if (isExpanded) {
+      product.classList.remove('hidden');
+      product.style.maxHeight = "0px";
+      product.style.opacity = "0";
+      product.style.transform = "translateY(16px)";
+
+      requestAnimationFrame(() => {
+        product.style.maxHeight = product.scrollHeight + "px";
+        product.style.opacity = "1";
+        product.style.transform = "translateY(0)";
+      });
+
+    } else {
+      product.style.maxHeight = product.scrollHeight + "px";
+
+      requestAnimationFrame(() => {
+        product.style.maxHeight = "0px";
+        product.style.opacity = "0";
+        product.style.transform = "translateY(16px)";
+      });
+
+      setTimeout(() => {
+        product.classList.add('hidden');
+      }, 500);
+    }
   });
 
   showMoreBtn.textContent = isExpanded ? "Show Less" : "Show More";
