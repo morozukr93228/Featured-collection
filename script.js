@@ -2,23 +2,36 @@ const container = document.getElementById("productContainer");
 const indicator = document.getElementById("scrollIndicator");
 
 function updateScrollIndicator() {
-  const maxScroll = container.scrollWidth - container.clientWidth;
+  const scrollWidth = container.scrollWidth;
+  const clientWidth = container.clientWidth;
+  const scrollLeft = container.scrollLeft;
 
-  if (maxScroll <= 0) return;
+  const maxScroll = scrollWidth - clientWidth;
 
-  const scrollRatio = container.scrollLeft / maxScroll;
+  if (maxScroll <= 0) {
+    indicator.style.width = "0px";
+    indicator.style.transform = "translateX(0px)";
+    return;
+  }
 
-  // Since thumb is fixed 28%, it can only move 72%
-  const maxTranslate = 72;
+  const visibleRatio = clientWidth / scrollWidth;
 
-  indicator.style.transform = `translateX(${scrollRatio * maxTranslate}%)`;
+  const trackWidth = indicator.parentElement.clientWidth;
+  const thumbWidth = trackWidth * visibleRatio;
+
+  indicator.style.width = `${thumbWidth}px`;
+
+  const scrollRatio = scrollLeft / maxScroll;
+
+  const maxTranslate = trackWidth - thumbWidth;
+
+  indicator.style.transform = `translateX(${scrollRatio * maxTranslate}px)`;
 }
 
 container.addEventListener("scroll", updateScrollIndicator);
 window.addEventListener("resize", updateScrollIndicator);
 
 updateScrollIndicator();
-
 /* -------------------------
   show more button logic
 -------------------------- */
